@@ -106,7 +106,7 @@ nav li:hover {
   margin: 0 0 0 25px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  top: 20%;
+  top: 200px;
 }
 
 .car-details h2 {
@@ -254,7 +254,7 @@ nav li:hover {
   .car-details {
     margin-left: 100px;
     padding: 10px;
-    top: 25%;
+    top: 250px;
   }
 
   .car-details h2 {
