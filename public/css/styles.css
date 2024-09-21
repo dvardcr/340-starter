@@ -4,3 +4,259 @@
 *:after {
   box-sizing: border-box;
 }
+
+/* Page Background */
+html {
+  background-image: none;
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body Section */
+body {
+  background-color: white;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+}
+
+/* Header Styles */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.siteName a {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+}
+
+.siteName a:hover {
+  color: #01b0d3;
+}
+
+#tools a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+#tools a:hover {
+  color: #01b0d3;
+}
+
+/* Navigation Styles */
+nav {
+  background-color: black;
+  margin: 10px 0;
+  grid-column: 1 / span 2;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 5px;
+  list-style-type: none;
+}
+
+nav li {
+  color: white;
+  text-align: center;
+  padding: 5px 15px;
+  transition: color 0.3s;
+}
+
+nav li:hover {
+  color: #01b0d3;
+}
+
+/* Home Picture */
+.picture-container {
+  display: flex;
+  justify-content: center;
+  grid-column: 1 / span 2;
+  z-index: 0;
+}
+
+/* CTA Styles */
+.car-details {
+  text-align: left;
+  position: absolute;
+  color: #01b0d3;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  margin: 0 0 0 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 25%;
+}
+
+.car-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.car-details li {
+  margin-bottom: 5px;
+  font-weight: bold;
+  /* Small margin between list items */
+}
+
+#cta-button {
+  background-color: #01b0d3;
+  font-weight: bold;
+  color: black;
+  width: 100%;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+  padding: 10px;
+}
+
+#cta-button:hover {
+  background-color: #0297b8;
+  font-weight: bold;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Upgrades Section */
+.upgrades-section {
+  padding: 20px;
+  text-align: center;
+}
+
+.upgrades-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Upgrades Grid - 2x2 layout */
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Upgrade Item - the rectangle */
+.upgrade-item {
+  text-align: center;
+}
+
+.image-container {
+  background-color: lightblue;
+  width: 200px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+/* Image inside the rectangle */
+.upgrade-item img {
+  width: 200px;
+  height: 100px;
+  object-fit: scale-down;
+  background-color: #01b0d3;
+}
+
+/* Link below the rectangle */
+.upgrade-item a {
+  display: block;
+  font-size: 16px;
+}
+
+.upgrade-item a:hover {
+  color: #01b0d3;
+}
+
+/*Upgrades and Review Section*/
+
+.upgrades-reviews-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upgrades-section,
+.reviews-section {
+  width: 100%;
+}
+
+.upgrades-section h2,
+.reviews-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.reviews-section li {
+  text-align: left;
+  font-size: large;
+  margin: 0 0 20px 0;
+}
+
+/*MEDIA*/
+
+@media (min-width: 720px) {
+  body {
+    border: 5px solid #01b0d3;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 900px;
+    margin: 5px auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+
+  html {
+    background-image: url(../images/site/small_check.png);
+  }
+
+  .homepage-car,
+  header,
+  nav,
+  .footer {
+    grid-column: 1 / span 2;
+  }
+
+  .reviews-section,
+  .upgrades-section {
+    grid-column: 1fr 1fr;
+  }
+
+  .upgrades-reviews-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .upgrades-section,
+  .reviews-section {
+    width: 48%;
+    padding: 20px;
+  }
+}
