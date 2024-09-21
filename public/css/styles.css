@@ -109,6 +109,11 @@ nav li:hover {
   top: 20%;
 }
 
+.car-details h2 {
+  margin: 0;
+  padding: 0;
+}
+
 .car-details ul {
   list-style-type: none;
   padding: 0;
@@ -212,7 +217,7 @@ nav li:hover {
 .reviews-section li {
   text-align: left;
   font-size: large;
-  margin: 0 0 20px -10px;
+  margin: 0 0 20px -20px;
 }
 
 /* Desktop View */
@@ -247,28 +252,36 @@ nav li:hover {
   }
 
   .car-details {
-    margin-left: 50px;
+    margin-left: 100px;
     padding: 10px;
     top: 25%;
+  }
+
+  .car-details h2 {
+    margin: 0;
+    padding: 0;
   }
 
   .upgrades-reviews-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+  }
+
+  .upgrades-section h2 {
+    margin: 30px 0 20px 0;
+    padding: 0;
+  }
+
+  .reviews-section h2 {
+    margin: 40px 0 20px 0;
+    padding: 0;
   }
 
   .upgrades-section,
   .reviews-section {
     width: 48%;
-  }
-
-  .upgrades-section h2,
-  .reviews-section h2 {
-    font-size: 24px;
-    margin-bottom: 40px;
-    text-align: left;
   }
 
   .reviews-section {
