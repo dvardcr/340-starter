@@ -22,13 +22,14 @@ VALUES (
         'Iam1ronM@n'
     );
 -- Modify the Tony Stark record to change the account_type to "Admin".
+-- I can use the following statement if I do not know the account id "WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';"
 UPDATE account
 SET account_type = 'Admin'
 WHERE account_id = 1;
 -- Delete the Tony Stark record from the database.
 DELETE FROM account
 WHERE account_id = 1;
--- Modify the "GM Hummer" record to read "a huge interior" rather than "small interiors" using a single query.
+-- Modify the "GM Hummer" record to read "a huge interior" rather than "the small interiors" using a single query.
 UPDATE inventory
 SET inv_description = REPLACE(
         inv_description,
