@@ -36,7 +36,7 @@ app.use("/inv", inventoryRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
-  next({status: 404, message: 'Looks like we hit a glitch in the matrix. 🖥️ Reload or press F5 to see if the universe resets itself.'})
+  next({status: 404, message: 'Looks like we hit a glitch in the matrix. Reload or press F5 to see if the universe resets itself.'})
 })
 
 /* ***********************
