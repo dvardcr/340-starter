@@ -13,6 +13,7 @@ const static = require("./routes/static")
 const inventoryRoute = require('./routes/inventoryRoute')
 const baseController = require("./controllers/baseController")
 const utilities = require('./utilities')
+const errorRoute = require('./routes/errorRoute');
 
 /* ***********************
  * View Engine and Templates
@@ -33,6 +34,9 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 // app.get("/", function(req,res){res.render("index", {title: "Home"})}) // Change Home (tab view)
 // Inventory routes
 app.use("/inv", inventoryRoute)
+
+// Route to intentionally trigger a 500 error
+app.use(errorRoute);
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
