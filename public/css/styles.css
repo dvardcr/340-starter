@@ -72,15 +72,25 @@ nav ul {
 }
 
 nav li {
-  color: white;
+  background-color: lightgrey;
+  color: black;
   text-align: center;
-  padding: 5px 15px;
-  transition: color 0.3s;
+  padding: 6px 20px;
+  border: 1px solid grey;
+  text-decoration: none;
+  list-style-type: none;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 nav li:hover {
+  background-color: rgb(61, 61, 61);
   color: #01b0d3;
   cursor: pointer;
+}
+
+nav li a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Home Picture */

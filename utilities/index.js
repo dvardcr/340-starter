@@ -37,9 +37,9 @@ Util.buildClassificationGrid = async function(data){
         + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
         + 'details"><img src="' + vehicle.inv_thumbnail 
         +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-        +' on CSE Motors" /></a>'
+        +' on CSE Motors"></a>'
         grid += '<div class="namePrice">'
-        grid += '<hr />'
+        grid += '<hr>'
         grid += '<h2>'
         grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
         + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
@@ -64,7 +64,7 @@ Util.buildVehicleDetail = async function(vehicleData) {
     let detail = `
         <div class="vehicle-detail">
             <h1>${vehicleData.inv_year} ${vehicleData.inv_make} ${vehicleData.inv_model}</h1>
-            <img src="${vehicleData.inv_image}" alt="Image of ${vehicleData.inv_make} ${vehicleData.inv_model} on CSE Motors" />
+            <img src="${vehicleData.inv_image}" alt="Image of ${vehicleData.inv_make} ${vehicleData.inv_model} on CSE Motors">
             <h2>${vehicleData.inv_make} ${vehicleData.inv_model} Details</h2>
             <p><span class="bolded">Price: $${new Intl.NumberFormat('en-US').format(vehicleData.inv_price)}</span></p>
             <p><span class="bolded">Description:</span> ${vehicleData.inv_description}</p>
