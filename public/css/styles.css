@@ -93,6 +93,14 @@ nav li a {
   color: inherit;
 }
 
+/*Week 4*/
+/*Alert CSS*/
+#messages ul {
+  list-style-type: none;
+  color: red;
+  font-style: italic;
+}
+
 /* Home Picture */
 .picture-container {
   display: flex;
