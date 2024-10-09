@@ -2,26 +2,36 @@
     <%= title %>
 </h1>
 <%- messages() %>
-    <form class="login-form" action="/account/login" method="POST">
-        <input type="email" name="account_email" placeholder="Email" required>
-        <input type="password" name="account_password" id="password" placeholder="Password" required
-            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
-        <div class="password-requirements">
-            <p>Password must be at least 12 characters long, contain at least:</p>
-            <ul>
-                <li>1 capital letter</li>
-                <li>1 number</li>
-                <li>1 special character</li>
-            </ul>
-        </div>
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+                <% }) %>
+        </ul>
+        <% } %>
+            <form class="login-form" action="/account/login" method="post">
+                <input type="email" name="account_email" placeholder="Email" required
+                    value="<%= locals.account_email %>">
+                <input type="password" name="account_password" id="password" placeholder="Password" required
+                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+                <div class="password-requirements">
+                    <p>Password must be at least 12 characters long, contain at least:</p>
+                    <ul>
+                        <li>1 capital letter</li>
+                        <li>1 number</li>
+                        <li>1 special character</li>
+                    </ul>
+                </div>
 
-        <span class="button" id="pswdBtn">Show Password</span>
+                <span class="button" id="pswdBtn">Show Password</span>
 
-        <button type="submit">Login</button>
+                <button type="submit">Login</button>
 
-        <div class="account-register">
-            <p>No account?</p> <a href="/account/register">Sign-up</a>
-        </div>
+                <div class="account-register">
+                    <p>No account?</p> <a href="/account/register">Sign-up</a>
+                </div>
 
-        <script src="/js/togglePassword.js"></script>
-    </form>
+                <script src="/js/togglePassword.js"></script>
+            </form>
