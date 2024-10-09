@@ -349,15 +349,7 @@ form {
   margin-top: 50px;
 }
 
-h1 {
-  text-align: left;
-}
-
-.error {
-  color: red;
-  text-align: center;
-}
-
+input[type="text"],
 input[type="email"],
 input[type="password"] {
   width: 100%;
@@ -382,17 +374,54 @@ button:hover {
   color: black;
 }
 
+/* Error message */
+.error {
+  color: red;
+  text-align: center;
+}
+
+/* Specific styles for login form
+.login-form {
+}*/
+
+/* Specific styles for register form
+.register-form {
+}*/
+
 form p {
   text-align: center;
 }
 
-a {
+form a {
   color: white;
   text-align: center;
   display: block;
   margin-top: 10px;
 }
 
+span.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect */
+span.button:hover {
+  background-color: #0056b3;
+}
+
+span.button:active {
+  background-color: #004085;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+}
 
 /**************************/
 /******* Desktop View *****/
