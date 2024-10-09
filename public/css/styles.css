@@ -367,6 +367,8 @@ button {
   border-radius: 4px;
   cursor: pointer;
   width: 50%;
+  display: block;
+  margin: 0 auto;
 }
 
 button:hover {
@@ -380,9 +382,32 @@ button:hover {
   text-align: center;
 }
 
+.account-register {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.account-register div {
+  border: 2px white;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.account-register p {
+  margin-right: 5px;
+}
+
+.account-register a {
+  text-decoration: underline;
+  color: white;
+  margin: 15px;
+}
+
 /* Specific styles for login form
 .login-form {
-}*/
+} */
 
 /* Specific styles for register form
 .register-form {
@@ -410,6 +435,8 @@ span.button {
   text-decoration: none;
   border: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: block;
+  margin: 10px 0 10px 0;
 }
 
 /* Hover effect */
@@ -421,6 +448,28 @@ span.button:active {
   background-color: #004085;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transform: translateY(1px);
+}
+
+.password-requirements {
+  color: white;
+  font-size: 14px;
+  text-align: left;
+  font-style: italic;
+}
+
+.password-requirements p {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.password-requirements ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.password-requirements li {
+  margin: 5px 0;
 }
 
 /**************************/
