@@ -10,12 +10,13 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
-const inventoryRoute = require('./routes/inventoryRoute')
+const inventoryRoute = require("./routes/inventoryRoute")
 const baseController = require("./controllers/baseController")
-const utilities = require('./utilities')
-const errorRoute = require('./routes/errorRoute');
+const utilities = require("./utilities")
+const errorRoute = require("./routes/errorRoute")
 const session = require("express-session")
-const pool = require('./database/')
+const pool = require("./database/")
+const accountRoute = require("./routes/accountRoute")
 
 /* ***********************
  * Middleware
@@ -44,7 +45,7 @@ app.use(function(req, res, next){
 
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Routes
@@ -59,12 +60,16 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 app.use("/inv", inventoryRoute)
 
 // Route to intentionally trigger a 500 error
-app.use(errorRoute);
+app.use(errorRoute)
+
+// Account Routes
+app.use("/account", accountRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Looks like we hit a glitch in the matrix. Reload or press F5 to see if the universe resets itself.'})
 })
+
 
 /* ***********************
 * Express Error Handler
