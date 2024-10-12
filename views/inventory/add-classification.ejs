@@ -4,6 +4,7 @@
 <%- messages() %>
     <form class="new-classification" action="/inv/add-classification" method="post">
         <span>Name must be alphabetic characters only.</span>
+        <label for="classification_name">Classification:</label>
         <input type="text" id="classification_name" name="classification_name" placeholder="Classification"
             pattern="^[A-Za-z]+$" required value="<%= locals.classification_name %>">
         <button type="submit">Add Classification</button>

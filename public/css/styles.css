@@ -363,8 +363,8 @@ select {
 }
 
 button {
-  background-color: white;
-  color: gray;
+  background-color: lightgray;
+  color: black;
   padding: 10px;
   border: none;
   border-radius: 4px;
@@ -372,11 +372,12 @@ button {
   width: 50%;
   display: block;
   margin: 0 auto;
+  font-weight: bold;
 }
 
 button:hover {
-  background-color: lightgray;
-  color: black;
+  background-color: white;
+  color: gray;
 }
 
 /* Error message */
@@ -473,6 +474,24 @@ span.button:active {
 
 .password-requirements li {
   margin: 5px 0;
+}
+
+label {
+  display: block;
+  color: white;
+  padding: 10px 0;
+  text-align: left;
+}
+
+.new-classification span {
+  display: block;
+  padding: 10px 0;
+  font-style: italic;
+  text-align: left;
+}
+
+#inv_description {
+  height: 100px;
 }
 
 /**************************/
