@@ -1,3 +1,4 @@
+/*const { addClassification } = require("../controllers/invController");*/
 const pool = require("../database/")
 const invModel = {};
 
@@ -40,4 +41,63 @@ async function getVehicleById(invId) {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getVehicleById};
+/* ***************************
+ *  Add new classification to the database
+ * ************************** */
+async function addClassification(new_classification) {
+  try {
+    const sql = "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *";
+    const result = await pool.query(sql, [new_classification]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error adding classification:", error);
+    throw error;
+  }
+}
+
+/* ***************************
+ *  Add new vehicle to the database
+ * ************************** */
+
+async function addInventory(vehicleData) {
+  try {
+    const {
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_year,
+      inv_color,
+      classification_id,
+      inv_image,
+      inv_thumbnail,
+      inv_miles,
+      inv_price
+    } = vehicleData;
+
+    // Insert the new vehicle into the database
+    const query = `
+      INSERT INTO public.inventory (inv_make, inv_model, inv_description, inv_year, inv_color, classification_id, inv_image, inv_thumbnail, inv_miles, inv_price)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *
+    `;
+
+    const result = await pool.query(query, [
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_year,
+      inv_color,
+      classification_id,
+      inv_image,
+      inv_thumbnail,
+      inv_miles,
+      inv_price
+    ]);
+
+    return result.rows[0]; // Return the inserted vehicle data
+  } catch (error) {
+    console.error("Error adding vehicle:", error);
+    throw error; // Throw the error for handling in the controller
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, addInventory};

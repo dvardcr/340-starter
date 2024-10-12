@@ -1,0 +1,44 @@
+<h1>
+    <%= title %>
+</h1>
+<%- messages() %>
+    <form class="new-vehicle" action="/inv/add-inventory" method="post" id="add-inventory">
+
+        <label for="classificationList">Classification:</label>
+        <%- classificationList %>
+
+            <label for="inv_make">Make:</label>
+            <input type="text" name="inv_make" id="inv_make" required minlength="3" pattern=".{3,}"
+                title="Make must be more than 3 characters" value="<%= inv_make || '' %>">
+
+            <label for="inv_model">Model:</label>
+            <input type="text" name="inv_model" id="inv_model" required minlength="3" pattern=".{3,}"
+                title="Model must be more than 3 characters" value="<%= inv_model || '' %>">
+
+            <label for="inv_description">Description:</label>
+            <input type="text" name="inv_description" id="inv_description" required
+                value="<%= inv_description || '' %>">
+
+            <label for="inv_image">Image Path:</label>
+            <input type="text" name="inv_image" id="inv_image" value="/images/vehicles/no-image.png" required>
+
+            <label for="inv_thumbnail">Thumbnail Path:</label>
+            <input type="text" name="inv_thumbnail" id="inv_thumbnail" value="/images/vehicles/no-image.png" required>
+
+            <label for="inv_price">Price:</label>
+            <input type="number" name="inv_price" id="inv_price" required min="1" pattern="\d+"
+                title="Price must be a valid integer" value="<%= inv_price || '' %>">
+
+            <label for="inv_year">Year:</label>
+            <input type="number" name="inv_year" id="inv_year" required min="1900" max="2100" pattern="^\d{4}$"
+                title="Year must be between 1900 and 2100" value="<%= inv_year || '' %>">
+
+            <label for="inv_miles">Miles:</label>
+            <input type="number" name="inv_miles" id="inv_miles" required min="1" pattern="\d+"
+                title="Miles must be a valid integer" value="<%= inv_miles || '' %>">
+
+            <label for="inv_color">Color:</label>
+            <input type="text" name="inv_color" id="inv_color" required value="<%= inv_color || '' %>">
+
+            <button type="submit">Add Vehicle</button>
+    </form>
