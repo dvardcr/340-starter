@@ -96,7 +96,6 @@ nav li a {
 /*Week 4*/
 /*Alert CSS*/
 #messages ul {
-  list-style-type: none;
   color: red;
   font-style: italic;
 }
@@ -409,6 +408,11 @@ button:hover {
   margin: 15px;
 }
 
+.vehicle-management ul {
+  list-style-type: none;
+  padding: 0 0 0 20px;
+}
+
 /* Specific styles for login form
 .login-form {
 } */
@@ -431,7 +435,7 @@ form a {
 span.button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #0056B3;
   color: white;
   border-radius: 4px;
   text-align: center;

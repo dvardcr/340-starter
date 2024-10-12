@@ -67,36 +67,49 @@ invCont.buildAddClassification = async function (req, res, next) {
     });
 };
 
-invCont.addClassification = async function(req, res, next) {
+/* ****************************************
+ *  Add Classification Process
+ * *************************************** */
+invCont.addClassification = async function (req, res, next) {
+    let nav = await utilities.getNav();
+    const { classification_name } = req.body;
+
+    // Server-side validation for valid classification name
+    const validName = /^[a-zA-Z]+$/.test(classification_name);
+    if (!validName) {
+    req.flash("notice", "Provide a correct classification name.");
+    return res.render("./inventory/add-classification", {
+        title: "Add Classification",
+        nav,
+        classification_name, // retain the input value
+        errors: null,
+    });
+    }
+
     try {
-        const { classification_name } = req.body;
+      // Add the classification to the database
+    const newClassification = await invModel.addClassification(classification_name);
 
-        // Server-side validation: Check for spaces or special characters
-        const validName = /^[a-zA-Z]+$/.test(classification_name);
-        if (!validName) {
-            req.flash('notice', 'Provide a correct classification name.');
-            return res.render("./inventory/add-classification", {
-                title: 'Add Classification',
-                nav: await utilities.getNav(),
-                classification_name: classification_name // retain the input value
-            });
-        }
-
-        const newClassification = await invModel.addClassification(classification_name);
-        
-        if (newClassification) {
-            req.flash('notice', `The ${classification_name} was successfully added.`);
-        } else {
-            req.flash('notice', 'Failed to add classification. Please try again.');
-        }
-
-        res.redirect("/inv"); // Redirect to management view
-    } catch (error) {
-        req.flash('notice', 'Failed to add classification. Please try again.');
-        res.render("./inventory/add-classification", {
-            title: 'Add Classification',
-            nav: await utilities.getNav(),
+    if (newClassification) {
+        req.flash("notice", `The ${classification_name} was successfully added.`);
+        res.status(201).redirect("/inv"); // Redirect to management view after success
+    } else {
+        req.flash("notice", "Sorry, adding classification failed.");
+        res.status(501).render("./inventory/add-classification", {
+        title: "Add Classification",
+        nav,
+          classification_name, // retain the input value
+        errors: null,
         });
+    }
+    } catch (error) {
+    req.flash("notice", "An error occurred while adding the classification.");
+    res.status(500).render("./inventory/add-classification", {
+        title: "Add Classification",
+        nav,
+        classification_name, // retain the input value
+        errors: null,
+    });
     }
 };
 
