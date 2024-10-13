@@ -1,4 +1,3 @@
-/*const { addClassification } = require("../controllers/invController");*/
 const pool = require("../database/")
 const invModel = {};
 
@@ -47,11 +46,9 @@ async function getVehicleById(invId) {
 async function addClassification(new_classification) {
   try {
     const sql = "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *";
-    const result = await pool.query(sql, [new_classification]);
-    return result.rows[0];
+    return await pool.query(sql, [new_classification]);
   } catch (error) {
-    console.error("Error adding classification:", error);
-    throw error;
+    return error.message
   }
 }
 

@@ -1,6 +1,7 @@
 // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
+const utilities = require("../utilities")
 const invController = require("../controllers/invController")
 
 // Route to build inventory by classification view
@@ -16,12 +17,12 @@ router.get("/", invController.buildManagement);
 router.get("/add-classification", invController.buildAddClassification);
 
 // Route to handle adding a classification
-router.post("/add-classification", invController.addClassification);
+router.post("/add-classification", utilities.handleErrors(invController.addClassification));
 
 // Route to display add inventory form
 router.get('/add-inventory', invController.buildAddInventory);
 
 // Route to handle add inventory form submission
-router.post('/add-inventory', invController.addInventory);
+router.post('/add-inventory', utilities.handleErrors(invController.addInventory));
 
 module.exports = router;
