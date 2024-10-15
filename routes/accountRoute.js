@@ -11,15 +11,16 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 // Route to display "Registration" page
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+// Route to display "Account Management" page
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+
 // Route to POST "Registration" form
 router.post('/register', regValidate.registrationRules(), regValidate.checkRegData, utilities.handleErrors(accountController.registerAccount))
 
 // Process the login attempt
 router.post(
-    "/login", regValidate.loginRules(), regValidate.checkLogData, 
-    (req, res) => {
-    res.status(200).send('login process')
-    }
+    "/login", regValidate.loginRules(), regValidate.checkLoginData, 
+    utilities.handleErrors(accountController.accountLogin)
 )
 
 module.exports = router;
