@@ -25,4 +25,7 @@ router.get('/add-inventory', invController.buildAddInventory);
 // Route to handle add inventory form submission
 router.post('/add-inventory', utilities.handleErrors(invController.addInventory));
 
+//Get inventory for AJAX Route
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
 module.exports = router;

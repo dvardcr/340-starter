@@ -49,10 +49,13 @@ invCont.buildByInvId = async function (req, res, next) {
  * ************************** */
 invCont.buildManagement = async function(req, res, next) {
     let nav = await utilities.getNav();
-    req.flash('notice');
+    const classificationSelect = await utilities.buildClassificationList()
+    /*req.flash('notice');*/
     res.render("./inventory/management", {
         title: 'Vehicle Management',
         nav,
+        errors: null,
+        classificationSelect,
     });
 };
 
@@ -82,7 +85,7 @@ invCont.addClassification = async function (req, res, next) {
         title: "Add Classification",
         nav,
         classification_name, // retain the input value
-        errors: null,
+        errors: null
     });
     }
 
@@ -98,8 +101,8 @@ invCont.addClassification = async function (req, res, next) {
         res.status(501).render("./inventory/add-classification", {
         title: "Add Classification",
         nav,
-          classification_name, // retain the input value
-        errors: null,
+        classification_name, // retain the input value
+        errors: null
         });
     }
     } catch (error) {
@@ -108,7 +111,7 @@ invCont.addClassification = async function (req, res, next) {
         title: "Add Classification",
         nav,
         classification_name, // retain the input value
-        errors: null,
+        errors: null
     });
     }
 };
@@ -223,5 +226,18 @@ invCont.addInventory = async function(req, res, next) {
         res.redirect('/inv/add-inventory'); // Redirect back to the form
     }
 };
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+    const classification_id = parseInt(req.params.classification_id)
+    const invData = await invModel.getInventoryByClassificationId(classification_id)
+    if (invData[0].inv_id) {
+        return res.json(invData)
+    } else {
+        next(new Error("No data returned"))
+    }
+}
 
 module.exports = invCont;
