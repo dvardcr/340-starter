@@ -115,9 +115,12 @@ async function accountLogin(req, res) {
 * *************************************** */
 async function buildAccountManagement(req, res, next) {
     let nav = await utilities.getNav()
+    const user = req.user;
+
     res.render("account/management", {
         title: "Account Management",
         nav,
+        user,
         errors: null,
     })
 }
@@ -131,5 +134,6 @@ async function logout(req, res) {
     req.flash("notice", "You have successfully logged out.");
     return res.redirect("/account/login");
 }
+
 
 module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout }
