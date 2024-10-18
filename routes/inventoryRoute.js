@@ -38,6 +38,6 @@ router.post("/edit-inventory", utilities.handleErrors(invController.updateInvent
 router.get('/delete/:inv_id', utilities.handleErrors(invController.deleteConfirmation))
 
 // Route to post delete confirmation
-/*router.post('/delete/', utilities.handleErrors(deleteInventory))*/
+router.post('/delete/', utilities.handleErrors(invController.deleteInventory))
 
 module.exports = router;

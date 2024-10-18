@@ -288,7 +288,6 @@ invCont.deleteConfirmation = async function (req, res, next) {
     })
 }
 
-// Update Inventory
 /* ***************************
  *  Update Inventory Data
  * ************************** */
@@ -349,6 +348,33 @@ invCont.updateInventory = async function (req, res, next) {
     }
 }
 
-// Delete Inventory
+/* ***************************
+ *  Delete Inventory Data
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+    const nav = await utilities.getNav();
+    const { inv_id, inv_make, inv_model, inv_year, inv_price } = req.body;
+    const itemName = `${inv_make} ${inv_model}`;
+
+    const deleteResult = await invModel.deleteInventory(inv_id);
+
+    if(deleteResult) {
+        req.flash("notice", `The ${itemName} was successfully deleted.`);
+        res.redirect("/inv/");
+    }
+    else {
+        req.flash("notice", "Something went wrong while trying to delete.")
+        res.render("./inventory/delete-confirm", {
+            title: "Confirm delete for " + itemName,
+            nav,
+            inv_id,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_price,
+            errors: null,
+        });
+    }
+}
 
 module.exports = invCont;
