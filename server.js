@@ -19,6 +19,7 @@ const pool = require("./database/")
 const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
+const jwt = require("jsonwebtoken");
 
 /* ***********************
  * Middleware
@@ -47,6 +48,18 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 app.use(cookieParser())
 
 app.use(utilities.checkJWTToken)
+
+// Middleware to check if user is logged in
+app.use((req, res, next) => {
+  if (req.cookies.jwt) {
+      const decoded = jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET);
+      res.locals.isLoggedIn = true;
+      res.locals.userName = decoded.account_firstname; // Adjust as per your token payload
+  } else {
+      res.locals.isLoggedIn = false;
+  }
+  next();
+});
 
 /* ***********************
  * View Engine and Templates

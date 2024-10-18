@@ -4,6 +4,7 @@ const accountModel = require('../models/account-model')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+const loginValidation = require('../utilities/login-validation');
 
 /* ****************************************
 *  Deliver login view
@@ -81,15 +82,17 @@ async function accountLogin(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
     const accountData = await accountModel.getAccountByEmail(account_email)
+
     if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/login", {
-    title: "Login",
-    nav,
-    errors: null,
-    account_email,
+        req.flash("notice", "Please check your credentials and try again.")
+        res.status(400).render("account/login", {
+            title: "Login",
+            nav,
+            errors: null,
+            account_email,
     })
     return
+
     }
     try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
@@ -119,4 +122,14 @@ async function buildAccountManagement(req, res, next) {
     })
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement }
+/* ****************************************
+*  Process Logout
+* *************************************** */
+
+async function logout(req, res) {
+    res.clearCookie("jwt");
+    req.flash("notice", "You have successfully logged out.");
+    return res.redirect("/account/login");
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout }
