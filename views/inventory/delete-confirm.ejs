@@ -1,0 +1,33 @@
+<h1>
+    <%= title %>
+</h1>
+<%- messages() %>
+
+    <p>Confirm Deletion - The delete is permanent.</p>
+
+    <form class="delete-vehicle" action="/inv/delete" method="post" id="update-form">
+
+            <label for="inv_make">Make:</label>
+            <input type="text" name="inv_make" id="inv_make" required minlength="3" pattern=".{3,}"
+                title="Make must be more than 3 characters" placeholder="Min of 3 characters"
+                value="<%= inv_make || '' %>" readonly>
+
+            <label for="inv_model">Model:</label>
+            <input type="text" name="inv_model" id="inv_model" required minlength="3" pattern=".{3,}"
+                title="Model must be more than 3 characters" placeholder="Min of 3 characters"
+                value="<%= inv_model || '' %>" readonly>
+
+            <label for="inv_price">Price:</label>
+            <input type="number" name="inv_price" id="inv_price" required min="1" title="Price must be a valid integer"
+                placeholder="decimal or integer" value="<%= inv_price || '' %>" readonly>
+
+            <label for="inv_year">Year:</label>
+            <input type="number" name="inv_year" id="inv_year" required min="1900" max="2100"
+                title="Year must be between 1900 and 2100" placeholder="4-digit year" value="<%= inv_year || '' %>"
+                readonly>
+
+            <button type="submit">Delete</button>
+
+            <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+                <% } %>>
+    </form>
