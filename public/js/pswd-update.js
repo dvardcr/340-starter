@@ -1,6 +1,12 @@
-const form = document.querySelector("#password-form")
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.querySelector("#account_password");
+    const updateBtn = document.querySelector("#password-form button[type='submit']");
 
-    form.addEventListener("change", function () {
-        const updateBtn = document.querySelector("button")
-        updateBtn.removeAttribute("disabled")
-    })
+    passwordInput.addEventListener("input", function () {
+        if (passwordInput.validity.valid) {
+            updateBtn.removeAttribute("disabled");
+        } else {
+            updateBtn.setAttribute("disabled", "disabled");
+        }
+    });
+});

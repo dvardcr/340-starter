@@ -32,6 +32,9 @@ router.get("/update/:account_id", regValidate.loginRules(), utilities.handleErro
 router.post("/update", regValidate.loginRules(), utilities.handleErrors(accountController.updateAccount)
 );
 
+// Process Password Update
+router.post("/change-password", utilities.handleErrors(accountController.changePassword));
+
 // Process to Logout
 router.get("/logout", utilities.handleErrors(accountController.logout))
 

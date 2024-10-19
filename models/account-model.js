@@ -69,4 +69,14 @@ async function updateAccount(account_firstname, account_lastname, account_email,
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById }
+/* *****************************
+*   Update password
+* *************************** */
+async function updatePassword(account_id, hashedPassword) {
+  const query = 'UPDATE account SET account_password = $1 WHERE account_id = $2';
+  const values = [hashedPassword, account_id];
+  const result = await pool.query(query, values);
+  return result.rowCount > 0; // Return true if at least one row was updated
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword }

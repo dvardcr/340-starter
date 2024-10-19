@@ -197,12 +197,9 @@ async function updateAccount(req, res) {
             account_id
         );
 
-        console.log("Update result:", updateResult); // Log the result of the update
-
         if (updateResult) {
             // Fetch the updated account data
             const updatedAccountData = await accountModel.getAccountById(account_id);
-            console.log("Updated account data:", updatedAccountData); // Log the updated data
 
             // Regenerate JWT with updated information
             const updatedJwt = jwt.sign(
@@ -214,7 +211,7 @@ async function updateAccount(req, res) {
                     account_type: updatedAccountData.account_type
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '1h' } // Set token expiration as per your logic
+                { expiresIn: '1h' }
             );
 
             // Set the updated token as a cookie
@@ -224,7 +221,6 @@ async function updateAccount(req, res) {
             res.locals.userName = updatedAccountData.account_firstname;
             res.locals.userLast = updatedAccountData.account_lastname;
             res.locals.userEmail = updatedAccountData.account_email;
-            console.log("res.locals after update:", res.locals); // Log the updated res.locals
 
             req.flash("notice", "Account updated successfully.");
             return res.redirect("/account/");
@@ -245,7 +241,6 @@ async function updateAccount(req, res) {
             });
         }
     } catch (error) {
-        console.log("Error during update:", error); // Log any errors
         req.flash("notice", "There was an error updating the account.");
         return res.status(500).render("account/update", {
             title: "Update Account",
@@ -263,4 +258,39 @@ async function updateAccount(req, res) {
     }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount }
+/* ****************************************
+ * Update Password
+ * *************************************** */
+async function changePassword(req, res) {
+    const { account_id, account_password } = req.body;
+
+    // Validate password
+    if (account_password.length < 12) {
+        req.flash("notice", "Password must be at least 12 characters long.");
+        return res.redirect("/account/management"); // Redirect back to management
+    }
+
+    try {
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(account_password, 10);
+        // Update the password in the database
+        const updateResult = await accountModel.updatePassword(account_id, hashedPassword);
+
+        if (updateResult) {
+            req.flash("notice", "Password updated successfully. Please login with your new password.");
+            // Log the user out after updating the password
+            res.clearCookie("jwt"); // Clear the JWT cookie
+            return res.redirect("/account/login"); // Redirect to login
+        } else {
+            req.flash("notice", "Sorry, the password update failed.");
+        }
+    } catch (error) {
+        req.flash("notice", "There was an error updating the password.");
+        console.error("Password update error:", error); // Log the error for debugging
+    }
+
+    // If we reach here, something went wrong. Redirect back to management.
+    return res.redirect("/account/management");
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount, changePassword }
