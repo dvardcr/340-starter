@@ -4,7 +4,6 @@ const accountModel = require('../models/account-model')
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
-const loginValidation = require('../utilities/login-validation');
 
 /* ****************************************
 *  Deliver login view
@@ -31,7 +30,7 @@ async function buildRegister(req, res, next) {
 }
 
 /* ****************************************
-*  Process Registration
+*  Process Registration Request
 * *************************************** */
 async function registerAccount(req, res) {
     let nav = await utilities.getNav()
@@ -132,18 +131,19 @@ async function buildAccountManagement(req, res, next) {
 async function logout(req, res) {
     res.clearCookie("jwt");
     req.flash("notice", "You have successfully logged out.");
-    return res.redirect("/account/login");
+    return res.redirect("/");
 }
 
 /* ****************************************
- *  Deliver Update Account View
+ *  Build Update Account View
  * *************************************** */
 async function buildUpdateAccount(req, res, next) {
     let nav = await utilities.getNav();
-    const account_id = req.params.account_id; // Get account_id from the URL
+    const account_id = req.params.account_id;
 
     try {
-        const accountData = await accountModel.getAccountById(account_id); // Assuming you have a function to get account data by ID
+        const accountData = await accountModel.getAccountById(account_id);
+        
         if (!accountData) {
             req.flash("notice", "Account not found.");
             return res.redirect("/account/");
@@ -178,18 +178,27 @@ async function updateAccount(req, res) {
     const { account_firstname, account_lastname, account_email, account_id } = req.body;
 
     try {
-        const updateResult = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id);
+        const updateResult = await accountModel.updateAccount(
+            account_firstname, 
+            account_lastname, 
+            account_email, 
+            account_id
+        );
 
         if (updateResult) {
+            const updatedAccountData = await accountModel.getAccountById(account_id);
+
             req.flash("notice", "Account updated successfully.");
-            res.status(200).render("account/update", {
+            return res.render("account/update", {
                 title: "Update Account",
                 nav,
+                locals: {
+                    userId: updatedAccountData.account_id,
+                    userName: updatedAccountData.account_firstname,
+                    userLast: updatedAccountData.account_lastname,
+                    userEmail: updatedAccountData.account_email,
+                },
                 errors: null,
-                account_firstname,
-                account_lastname,
-                account_email,
-                account_id,
             });
         } else {
             req.flash("notice", "Sorry, the update failed.");

@@ -9,7 +9,7 @@
 <% } %>
 
 <h2>Account Update</h2>
-<form class="update-account" action="/account/update/" method="post">
+<form id="account-form" class="update-account" action="/account/update/" method="post">
     <label for="account_firstname">First Name:</label>
     <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.userName %>">
     
@@ -21,11 +21,13 @@
     
     <input type="hidden" name="account_id" value="<%= locals.userId %>">
     
-    <button type="submit">Update Account</button>
+    <button type="submit" disabled>Update Account</button>
 </form>
 
+<script src="/js/acct-update.js"></script>
+
 <h2>Change Password</h2>
-<form class="change-password" action="/account/change-password" method="post">
+<form id="password-form" class="change-password" action="/account/change-password" method="post">
     <label for="account_password">New Password:</label>
     <input type="password" name="account_password" id="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
     
@@ -40,5 +42,7 @@
 
     <input type="hidden" name="account_id" value="<%= locals.userId %>">
 
-    <button type="submit">Change Password</button>
+    <button type="submit" disabled>Change Password</button>
 </form>
+
+<script src="/js/pswd-update.js"></script>

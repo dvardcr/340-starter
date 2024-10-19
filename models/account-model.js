@@ -40,6 +40,23 @@ async function getAccountByEmail (account_email) {
 }
 
 /* *****************************
+* Return account data using id
+* ***************************** */
+
+async function getAccountById(account_id) {
+  try {
+      const result = await pool.query(
+          'SELECT * FROM account WHERE account_id = $1', 
+          [account_id]
+      );
+      return result.rows[0];
+  } catch (error) {
+      console.log('Error fetching account by ID:', error);
+      throw new Error('Database query failed');
+  }
+}
+
+/* *****************************
 *   Update existing account
 * *************************** */
 async function updateAccount(account_firstname, account_lastname, account_email, account_id) {
@@ -52,4 +69,4 @@ async function updateAccount(account_firstname, account_lastname, account_email,
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount }
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById }
