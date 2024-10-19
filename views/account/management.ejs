@@ -7,7 +7,7 @@
 <h2>Welcome <%= locals.userName %>!</h2>
 
 <!-- Edit your account information link (visible to all users) -->
-<a href="#">Edit your account information</a>
+<a href="/account/update/<%= locals.userId %>">Edit your account information</a>
 
 <!-- Inventory Management (visible to Employee/Admin only) -->
 <% if (locals.userType === 'Employee' || locals.userType === 'Admin') { %>

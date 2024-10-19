@@ -26,8 +26,15 @@ router.post(
 // Process to Logout
 router.get("/logout", utilities.handleErrors(accountController.logout))
 
-// Route to handle the Edit Account Information form (for all logged-in users)
-router.get("/update/:account_id", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount));
+// Route to handle the Edit Account Information
+router.get("/update/:account_id", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount))
 
+// Route to process the Account Update form
+router.post("/update/:account_id", 
+    utilities.checkLogin, 
+    regValidate.accountUpdateRules(),
+    regValidate.checkAccountUpdateData,
+    utilities.handleErrors(accountController.updateAccount)
+);
 
 module.exports = router;

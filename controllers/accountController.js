@@ -135,5 +135,86 @@ async function logout(req, res) {
     return res.redirect("/account/login");
 }
 
+/* ****************************************
+ *  Deliver Update Account View
+ * *************************************** */
+async function buildUpdateAccount(req, res, next) {
+    let nav = await utilities.getNav();
+    const account_id = req.params.account_id; // Get account_id from the URL
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout }
+    try {
+        const accountData = await accountModel.getAccountById(account_id); // Assuming you have a function to get account data by ID
+        if (!accountData) {
+            req.flash("notice", "Account not found.");
+            return res.redirect("/account/");
+        }
+
+        res.render("account/update", {
+            title: "Update Account",
+            nav,
+            errors: null,
+            locals: {
+                userId: accountData.account_id,
+                userName: accountData.account_firstname,
+                userLast: accountData.account_lastname,
+                userEmail: accountData.account_email,
+            }
+        });
+    } catch (error) {
+        req.flash("notice", "There was an error loading your account information.");
+        res.status(500).render("account/update", {
+            title: "Update Account",
+            nav,
+            errors: null,
+        });
+    }
+}
+
+/* ****************************************
+ * Update Account
+ * *************************************** */
+async function updateAccount(req, res) {
+    let nav = await utilities.getNav();
+    const { account_firstname, account_lastname, account_email, account_id } = req.body;
+
+    try {
+        const updateResult = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id);
+
+        if (updateResult) {
+            req.flash("notice", "Account updated successfully.");
+            res.status(200).render("account/update", {
+                title: "Update Account",
+                nav,
+                errors: null,
+                account_firstname,
+                account_lastname,
+                account_email,
+                account_id,
+            });
+        } else {
+            req.flash("notice", "Sorry, the update failed.");
+            res.status(501).render("account/update", {
+                title: "Update Account",
+                nav,
+                errors: null,
+                account_firstname,
+                account_lastname,
+                account_email,
+                account_id,
+            });
+        }
+    } catch (error) {
+        req.flash("notice", "There was an error updating the account.");
+        res.status(500).render("account/update", {
+            title: "Update Account",
+            nav,
+            errors: null,
+            account_firstname,
+            account_lastname,
+            account_email,
+            account_id,
+        });
+    }
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount }

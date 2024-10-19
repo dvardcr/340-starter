@@ -55,7 +55,10 @@ app.use((req, res, next) => {
       const decoded = jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET);
       res.locals.isLoggedIn = true;
       res.locals.userName = decoded.account_firstname;
+      res.locals.userLast = decoded.account_lastname;
       res.locals.userType = decoded.account_type;
+      res.locals.userEmail = decoded.account_email;
+      res.locals.userId = decoded.account_id;
   } else {
       res.locals.isLoggedIn = false;
   }
