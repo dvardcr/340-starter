@@ -83,6 +83,7 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // app.get("/", baseController.buildHome)
 // app.get("/", function(req,res){res.render("index", {title: "Home"})}) // Change Home (tab view)
+
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
