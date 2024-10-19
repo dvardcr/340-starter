@@ -81,7 +81,6 @@ async function accountLogin(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
     const accountData = await accountModel.getAccountByEmail(account_email)
-
     if (!accountData) {
         req.flash("notice", "Please check your credentials and try again.")
         res.status(400).render("account/login", {
@@ -89,23 +88,31 @@ async function accountLogin(req, res) {
             nav,
             errors: null,
             account_email,
-    })
-    return
-
+        })
+        return
     }
     try {
-    if (await bcrypt.compare(account_password, accountData.account_password)) {
-    delete accountData.account_password
-    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
-    if(process.env.NODE_ENV === 'development') {
-       res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-    } else {
-         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+        if (await bcrypt.compare(account_password, accountData.account_password)) {
+        delete accountData.account_password
+        const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+        if(process.env.NODE_ENV === 'development') {
+          res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+        } else {
+          res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+        }
+        return res.redirect("/account/")
     }
-    return res.redirect("/account/")
-    }
+    else {
+        req.flash("message notice", "Please check your credentials and try again.")
+        res.status(400).render("account/login", {
+            title: "Login",
+            nav,
+            errors: null,
+            account_email,
+        })
+        }
     } catch (error) {
-    return new Error('Access Forbidden')
+        throw new Error('Access Forbidden')
     }
 }
 
@@ -141,14 +148,18 @@ async function buildUpdateAccount(req, res, next) {
     let nav = await utilities.getNav();
     const account_id = req.params.account_id;
 
+    console.log("Fetching account data for ID:", account_id);
+
     try {
         const accountData = await accountModel.getAccountById(account_id);
         
         if (!accountData) {
             req.flash("notice", "Account not found.");
+            console.log("Account data not found for ID:", account_id);
             return res.redirect("/account/");
         }
 
+        // Use the middleware's populated values
         res.render("account/update", {
             title: "Update Account",
             nav,
@@ -158,14 +169,19 @@ async function buildUpdateAccount(req, res, next) {
                 userName: accountData.account_firstname,
                 userLast: accountData.account_lastname,
                 userEmail: accountData.account_email,
+                isLoggedIn: true
             }
         });
     } catch (error) {
         req.flash("notice", "There was an error loading your account information.");
+        console.error("Error fetching account data:", error);
         res.status(500).render("account/update", {
             title: "Update Account",
             nav,
             errors: null,
+            locals: {
+                isLoggedIn: false
+            }
         });
     }
 }
@@ -187,7 +203,6 @@ async function updateAccount(req, res) {
 
         if (updateResult) {
             const updatedAccountData = await accountModel.getAccountById(account_id);
-
             req.flash("notice", "Account updated successfully.");
             return res.render("account/update", {
                 title: "Update Account",
@@ -197,6 +212,7 @@ async function updateAccount(req, res) {
                     userName: updatedAccountData.account_firstname,
                     userLast: updatedAccountData.account_lastname,
                     userEmail: updatedAccountData.account_email,
+                    isLoggedIn: true // Set this based on your login check
                 },
                 errors: null,
             });
@@ -205,6 +221,10 @@ async function updateAccount(req, res) {
             res.status(501).render("account/update", {
                 title: "Update Account",
                 nav,
+                locals: {
+                    isLoggedIn: true, // Set based on login check
+                    userName: req.user.account_firstname // Assuming req.user is populated correctly
+                },
                 errors: null,
                 account_firstname,
                 account_lastname,
@@ -217,6 +237,10 @@ async function updateAccount(req, res) {
         res.status(500).render("account/update", {
             title: "Update Account",
             nav,
+            locals: {
+                isLoggedIn: true, // Set based on login check
+                userName: req.user.account_firstname // Assuming req.user is populated correctly
+            },
             errors: null,
             account_firstname,
             account_lastname,

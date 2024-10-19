@@ -11,7 +11,7 @@
                 <% }) %>
         </ul>
         <% } %>
-            <form class="login-form" action="/account/login" method="post">
+            <form id="loginForm" class="login-form" action="/account/login" method="post">
                 <label for="account_email">Email:</label>
                 <input type="email" name="account_email" id="account_email" placeholder="Email" required
                     value="<%= locals.account_email %>">

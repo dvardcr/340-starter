@@ -112,11 +112,11 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
     if (req.cookies.jwt) {
-    jwt.verify(
-    req.cookies.jwt,
-    process.env.ACCESS_TOKEN_SECRET,
-    function (err, accountData) {
-    if (err) {
+        jwt.verify(
+        req.cookies.jwt,
+        process.env.ACCESS_TOKEN_SECRET,
+        function (err, accountData) {
+        if (err) {
         req.flash("Please log in")
         res.clearCookie("jwt")
         return res.redirect("/account/login")
@@ -138,7 +138,7 @@ Util.checkLogin = (req, res, next) => {
     next()
     } else {
     req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+    return res.redirect("/account/")
     }
 }
 

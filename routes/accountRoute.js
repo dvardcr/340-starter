@@ -17,17 +17,19 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.b
 // Route to POST "Registration" form
 router.post('/register', regValidate.checkRegData, utilities.handleErrors(accountController.registerAccount))
 
-// Process the login attempt
+// Process the login request
 router.post(
-    "/login", regValidate.loginRules(), utilities.checkLogin, 
+    "/login",
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
     utilities.handleErrors(accountController.accountLogin)
 )
 
 // Route to handle the Edit Account Information
-router.get("/update/:account_id", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount))
+router.get("/update/:account_id", regValidate.loginRules(), utilities.handleErrors(accountController.buildUpdateAccount))
 
 // Route to process the Account Update form
-router.post("/update", utilities.checkLogin, utilities.handleErrors(accountController.updateAccount)
+router.post("/update", regValidate.loginRules(), utilities.handleErrors(accountController.updateAccount)
 );
 
 // Process to Logout
