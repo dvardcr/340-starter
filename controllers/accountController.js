@@ -38,7 +38,6 @@ async function registerAccount(req, res) {
     // Hash the password before storing
     let hashedPassword
     try {
-    // regular password and cost (salt is generated automatically)
     hashedPassword = await bcrypt.hashSync(account_password, 10)
     } catch (error) {
     req.flash("notice", 'Sorry, there was an error processing the registration.')
@@ -148,14 +147,11 @@ async function buildUpdateAccount(req, res, next) {
     let nav = await utilities.getNav();
     const account_id = req.params.account_id;
 
-    console.log("Fetching account data for ID:", account_id);
-
     try {
         const accountData = await accountModel.getAccountById(account_id);
         
         if (!accountData) {
             req.flash("notice", "Account not found.");
-            console.log("Account data not found for ID:", account_id);
             return res.redirect("/account/");
         }
 
@@ -201,51 +197,68 @@ async function updateAccount(req, res) {
             account_id
         );
 
+        console.log("Update result:", updateResult); // Log the result of the update
+
         if (updateResult) {
+            // Fetch the updated account data
             const updatedAccountData = await accountModel.getAccountById(account_id);
-            req.flash("notice", "Account updated successfully.");
-            return res.render("account/update", {
-                title: "Update Account",
-                nav,
-                locals: {
-                    userId: updatedAccountData.account_id,
-                    userName: updatedAccountData.account_firstname,
-                    userLast: updatedAccountData.account_lastname,
-                    userEmail: updatedAccountData.account_email,
-                    isLoggedIn: true // Set this based on your login check
+            console.log("Updated account data:", updatedAccountData); // Log the updated data
+
+            // Regenerate JWT with updated information
+            const updatedJwt = jwt.sign(
+                {
+                    account_id: updatedAccountData.account_id,
+                    account_firstname: updatedAccountData.account_firstname,
+                    account_lastname: updatedAccountData.account_lastname,
+                    account_email: updatedAccountData.account_email,
+                    account_type: updatedAccountData.account_type
                 },
-                errors: null,
-            });
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '1h' } // Set token expiration as per your logic
+            );
+
+            // Set the updated token as a cookie
+            res.cookie('jwt', updatedJwt, { httpOnly: true });
+
+            // Set updated user information in res.locals to refresh the header
+            res.locals.userName = updatedAccountData.account_firstname;
+            res.locals.userLast = updatedAccountData.account_lastname;
+            res.locals.userEmail = updatedAccountData.account_email;
+            console.log("res.locals after update:", res.locals); // Log the updated res.locals
+
+            req.flash("notice", "Account updated successfully.");
+            return res.redirect("/account/");
         } else {
             req.flash("notice", "Sorry, the update failed.");
-            res.status(501).render("account/update", {
+            return res.status(501).render("account/update", {
                 title: "Update Account",
                 nav,
                 locals: {
-                    isLoggedIn: true, // Set based on login check
-                    userName: req.user.account_firstname // Assuming req.user is populated correctly
+                    isLoggedIn: true,
+                    userName: res.locals.userName || account_firstname
                 },
-                errors: null,
                 account_firstname,
                 account_lastname,
                 account_email,
                 account_id,
+                errors: null,
             });
         }
     } catch (error) {
+        console.log("Error during update:", error); // Log any errors
         req.flash("notice", "There was an error updating the account.");
-        res.status(500).render("account/update", {
+        return res.status(500).render("account/update", {
             title: "Update Account",
             nav,
             locals: {
-                isLoggedIn: true, // Set based on login check
-                userName: req.user.account_firstname // Assuming req.user is populated correctly
+                isLoggedIn: true,
+                userName: res.locals.userName || account_firstname
             },
-            errors: null,
             account_firstname,
             account_lastname,
             account_email,
             account_id,
+            errors: null,
         });
     }
 }

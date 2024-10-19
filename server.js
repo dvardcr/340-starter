@@ -59,6 +59,9 @@ app.use((req, res, next) => {
       res.locals.userType = decoded.account_type;
       res.locals.userEmail = decoded.account_email;
       res.locals.userId = decoded.account_id;
+
+      console.log("res.locals in middleware:", res.locals);
+      
   } else {
       res.locals.isLoggedIn = false;
   }
