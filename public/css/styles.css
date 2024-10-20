@@ -65,11 +65,16 @@ body {
 nav {
   background-color: black;
   margin: 10px 0;
+  max-width: 100%;
+  /* Prevents it from exceeding the viewport width */
+  overflow: hidden;
+  /* Ensures no overflow on the nav */
 }
 
 nav ul {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  /* Change to space-between */
   margin: 0;
   padding: 5px;
   list-style-type: none;
@@ -79,11 +84,14 @@ nav li {
   background-color: lightgrey;
   color: black;
   text-align: center;
-  padding: 4px 16px;
+  padding: 4px 8px;
+  /* Reduced padding */
   border: 1px solid grey;
   text-decoration: none;
   list-style-type: none;
   transition: background-color 0.3s, color 0.3s;
+  flex: 1;
+  /* Allow items to grow/shrink equally */
 }
 
 nav li:hover {
@@ -252,6 +260,7 @@ nav li a {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 20px;
+  justify-items: center;
 }
 
 #inv-display li {
@@ -265,6 +274,8 @@ nav li a {
   align-items: center;
   justify-content: space-between;
   height: 250px;
+  width: 90%;
+  max-width: 300px;
 }
 
 #inv-display img {
@@ -432,8 +443,6 @@ button:hover {
   padding: 0 0 0 20px;
 }
 
-
-
 /* Specific styles for login form
 .login-form {
 } */
@@ -515,6 +524,137 @@ label {
   text-align: left;
 }
 
+/* WEEK 5 */
+
+#classificationList {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  font-size: 16px;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+/* Style for the dropdown on focus */
+#classificationList:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 5px rgba(1, 176, 211, 0.5);
+}
+
+/* Style for required field */
+#classificationList:required:invalid {
+  color: gray;
+}
+
+#add-inventory #classificationList {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  font-size: 16px;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+/* Style for the dropdown on focus */
+#add-inventory #classificationList:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 5px rgba(1, 176, 211, 0.5);
+}
+
+/* Style for required field */
+#add-inventory #classificationList:required:invalid {
+  color: gray;
+}
+
+
+/* ************ */
+/* Table Styles */
+/* ************ */
+
+#inventoryDisplay {
+  width: 500px;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Header Styles */
+#inventoryDisplay thead {
+  background-color: #003366;
+  color: white;
+}
+
+#inventoryDisplay th {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Body Styles */
+#inventoryDisplay tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#inventoryDisplay td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Link Styles */
+#inventoryDisplay a {
+  color: #003366;
+  text-decoration: none;
+}
+
+#inventoryDisplay a:hover {
+  text-decoration: underline;
+  color: #003366;
+}
+
+/* Add a border around the table */
+#inventoryDisplay {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* LOGOUT BUTTON */
+
+#logout-link {
+  display: inline-block;
+  background-color: lightgray;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#logout-link:hover {
+  background-color: #003366;
+  transform: scale(1.05);
+}
+
+#user-link {
+  display: inline-block;
+  font-weight: bold;
+  padding: 0 20px 0 0;
+}
+
+#title-link {
+  display: inline-block;
+  font-weight: bold;
+}
+
 /**************************/
 /******* Desktop View *****/
 /**************************/
@@ -531,6 +671,42 @@ label {
 
   html {
     background-image: url(../images/site/small_check.png);
+  }
+
+  /* Navigation Styles */
+  nav {
+    background-color: black;
+    margin: 10px 0;
+  }
+
+  nav ul {
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 5px;
+    list-style-type: none;
+  }
+
+  nav li {
+    background-color: lightgrey;
+    color: black;
+    text-align: center;
+    padding: 4px 16px;
+    border: 1px solid grey;
+    text-decoration: none;
+    list-style-type: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  nav li:hover {
+    background-color: rgb(61, 61, 61);
+    color: #01b0d3;
+    cursor: pointer;
+  }
+
+  nav li a {
+    text-decoration: none;
+    color: inherit;
   }
 
   .homepage-car,

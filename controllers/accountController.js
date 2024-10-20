@@ -136,7 +136,7 @@ async function buildAccountManagement(req, res, next) {
 
 async function logout(req, res) {
     res.clearCookie("jwt");
-    req.flash("notice", "You have successfully logged out.");
+    req.flash("notice", "");
     return res.redirect("/");
 }
 
