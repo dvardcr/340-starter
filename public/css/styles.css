@@ -5,9 +5,12 @@
   box-sizing: border-box;
 }
 
-/* Default view (Mobile) */
+/* ********************
+Default view (Mobile) 
+******************** */
 
 /* Page Background */
+
 html {
   background-size: cover;
   background-position: center;
@@ -19,11 +22,12 @@ html {
 body {
   background-color: white;
   margin: 0 auto;
-  padding: 20px;
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 20px;
   font-family: 'Roboto', sans-serif;
+  max-width: 480px;
+  width: 100%;
 }
 
 /* Header Styles */
@@ -75,7 +79,7 @@ nav li {
   background-color: lightgrey;
   color: black;
   text-align: center;
-  padding: 6px 20px;
+  padding: 4px 16px;
   border: 1px solid grey;
   text-decoration: none;
   list-style-type: none;
