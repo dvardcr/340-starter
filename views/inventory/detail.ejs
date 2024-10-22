@@ -2,4 +2,58 @@
     <%= title %>
 </h1>
 
-<%- vehicleDetailHtml %>
+<%- messages() %>
+
+    <%- vehicleDetailHtml %>
+
+        <h2>Customer Reviews</h2>
+        <% if (typeof reviews !=='undefined' && reviews.length> 0) { %>
+            <% reviews.forEach(review=> { %>
+                <div class="review">
+                    <p><span id="screen-name">
+                            <%= review.first_name.charAt(0) + review.last_name %>
+                        </span> wrote on <span id="review-date">
+                            <%= new Date(review.review_date).toLocaleDateString('en-US', { year: 'numeric' ,
+                                month: 'long' , day: 'numeric' }) %>
+                        </span>:</p>
+                    <p>
+                        <%= review.review_text %>
+                    </p>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p>Be the first to write a review.</p>
+                        <% } %>
+
+                            <% if (locals.isLoggedIn) { %>
+                                <h2>Add Your Own Review</h2>
+
+                                <% if (typeof errors !=='undefined' && errors.length> 0) { %>
+                                    <div class="error-messages">
+                                        <ul>
+                                            <% errors.forEach(error=> { %>
+                                                <li>
+                                                    <%= error.msg %>
+                                                </li> <!-- Display each error message -->
+                                                <% }); %>
+                                        </ul>
+                                    </div>
+                                    <% } %>
+
+                                        <form id="reviewForm" class="review-form"
+                                            action="/inv/detail/<%= vehicleData.inv_id %>" method="post">
+                                            <label>Screen Name:</label>
+                                            <input type="text"
+                                                value="<%= locals.userName.charAt(0) + locals.userLast %>" readonly />
+
+                                            <label>Review:</label>
+                                            <textarea name="review_text" required></textarea>
+
+                                            <input type="hidden" name="inv_id" value="<%= vehicleData.inv_id %>">
+                                            <input type="hidden" name="account_id" value="<%= locals.userId %>">
+
+                                            <button type="submit">Submit Review</button>
+                                        </form>
+                                        <% } else { %>
+                                            <p>You must <a href="/account/login">log in</a> to write a review.</p>
+                                            <% } %>
