@@ -248,3 +248,13 @@ WHERE inv_id = 10;
 UPDATE inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+-- Create review table
+CREATE TABLE review (
+    review_id SERIAL PRIMARY KEY,
+    review_text TEXT NOT NULL,
+    review_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    inv_id INTEGER NOT NULL,
+    account_id INTEGER NOT NULL,
+    FOREIGN KEY (inv_id) REFERENCES inventory (inv_id),
+    FOREIGN KEY (account_id) REFERENCES account (account_id)
+);
