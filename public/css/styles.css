@@ -365,16 +365,25 @@ form {
 }
 
 input[type="text"],
-input[type="textarea"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
 select {
+  /* Add textarea to this list */
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: none;
   border-radius: 4px;
+}
+
+/* Additional styling for textarea specifically */
+textarea {
+  max-width: 250px;
+  width: 100%;
+  min-height: 250px;
+  resize: vertical;
+  /* Allows the user to adjust height only */
 }
 
 #inv_description {
@@ -655,6 +664,36 @@ label {
   font-weight: bold;
 }
 
+/* **********************
+REVIEWS
+*********************** */
+
+.review {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.review p {
+  margin: 8px 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+#screen-name {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#review-date {
+  font-style: italic;
+  color: #888;
+}
+
 /**************************/
 /******* Desktop View *****/
 /**************************/
@@ -817,6 +856,15 @@ label {
   /* Week 4 */
   form {
     width: 400px;
+  }
+
+  /* Additional styling for textarea specifically */
+  textarea {
+    max-width: 350px;
+    width: 100%;
+    min-height: 250px;
+    resize: vertical;
+    /* Allows the user to adjust height only */
   }
 
 }
