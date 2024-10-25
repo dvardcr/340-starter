@@ -42,12 +42,12 @@
 
                                         <form id="reviewForm" class="review-form"
                                             action="/inv/detail/<%= vehicleData.inv_id %>" method="post">
-                                            <label>Screen Name:</label>
-                                            <input type="text"
+                                            <label for="screen_name">Screen Name:</label>
+                                            <input type="text" id="screen_name"
                                                 value="<%= locals.userName.charAt(0) + locals.userLast %>" readonly />
 
-                                            <label>Review:</label>
-                                            <textarea name="review_text" required></textarea>
+                                            <label for="review_text" >Review:</label>
+                                            <textarea id="review_text" name="review_text" required></textarea>
 
                                             <input type="hidden" name="inv_id" value="<%= vehicleData.inv_id %>">
                                             <input type="hidden" name="account_id" value="<%= locals.userId %>">
