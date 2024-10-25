@@ -4,6 +4,12 @@ async function addReview(req, res, next) {
     const invId = req.params.inv_id;
     const { review_text } = req.body;
 
+    // Simple server-side validation
+    if (!review_text || review_text.trim().length === 0) {
+        req.flash("error", "Review text is required."); // Flash an error message
+        return res.redirect(`/inv/detail/${invId}`); // Redirect back to the add review page
+    }
+
     try {
         const reviewId = await reviewModel.addReview(review_text, invId, res.locals.userId);
         console.log(`Review added with ID: ${reviewId}`); // Log the added review ID

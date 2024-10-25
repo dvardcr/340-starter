@@ -345,6 +345,11 @@ async function updateReview(req, res) {
 
     console.log(`Updating review ID: ${review_id} for account ID: ${account_id}`); // Debugging log
 
+    // Simple server-side validation
+    if (!review_text || review_text.trim().length === 0 || review_text === req.body.original_review_text) {
+        req.flash("error", "Please make at least one change to your review.")
+        return res.redirect(`/account/review/${review_id}`)}
+
     try {
         // Call the model to update the review in the database
         await accountModel.updateReview(review_id, account_id, review_text);
