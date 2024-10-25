@@ -27,7 +27,7 @@
                             <%= review.inv_model %> on <%= new Date(review.review_date).toLocaleDateString('en-US', {
                                     year: 'numeric' , month: 'long' , day: 'numeric' }) %> |
                                     <a href="/account/review/<%= review.review_id %>">Edit</a> |
-                                    <a href="#">Delete</a>
+                                    <a href="/account/review/<%= review.review_id %>/delete">Delete</a>
                 </li>
                 <% }); %>
         </ol>

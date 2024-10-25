@@ -1,0 +1,25 @@
+<h1>Delete <%= review.inv_year %>
+        <%= review.inv_make %>
+            <%= review.inv_model %> Review</h1>
+<%- messages() %>
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+                <% }) %>
+        </ul>
+        <% } %>
+            <form id="deleteReviewForm" class="delete-review-form" action="/account/review/<%= review.review_id %>/delete"
+                method="post">
+                <label for="review_date">Review Date:</label>
+                <input type="text" id="review_date" name="review_date"
+                    value="<%= new Date(review.review_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>"
+                    readonly required>
+
+                <label for="review_text">Review Text:</label>
+                <textarea id="review_text" name="review_text" readonly required><%= review.review_text %></textarea>
+
+                <button type="submit">Delete</button>
+            </form>

@@ -129,4 +129,18 @@ async function updateReview(review_id, account_id, review_text) {
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword, getReviewsByAccountId, getReviewById, updateReview }
+async function deleteReview(review_id, account_id) {
+  try {
+    const result = await pool.query(
+      'DELETE FROM review WHERE review_id = $1 AND account_id = $2',
+      [review_id, account_id]
+    );
+    return result;
+  } catch (error) {
+    console.log("Error deleting review:", error);
+    throw new Error("Database query failed");
+  }
+}
+
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword, getReviewsByAccountId, getReviewById, updateReview, deleteReview }

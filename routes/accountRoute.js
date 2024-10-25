@@ -44,4 +44,10 @@ router.get('/review/:review_id', utilities.handleErrors(accountController.getEdi
 // Route to handle the update of the review
 router.post('/review/:review_id', utilities.handleErrors(accountController.updateReview))
 
+// Route to get the delete review page
+router.get('/review/:review_id/delete', utilities.handleErrors(accountController.getDeleteReview));
+
+// Route to handle the deletion of the review
+router.post('/review/:review_id/delete', utilities.handleErrors(accountController.deleteReview));
+
 module.exports = router;

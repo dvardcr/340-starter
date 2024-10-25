@@ -361,4 +361,55 @@ async function updateReview(req, res) {
     }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount, changePassword, getEditReview, updateReview }
+async function getDeleteReview(req, res) {
+    let nav = await utilities.getNav()
+    const review_id = req.params.review_id; // Get the review_id from the URL
+    const account_id = res.locals.userId; // Get the logged-in user's account_id
+
+    try {
+        // Fetch the review details using the model
+        const review = await accountModel.getReviewById(review_id, account_id);
+        
+        if (!review) {
+            req.flash("notice", "Review not found.");
+            return res.redirect("/account/"); // Redirect if the review doesn't exist
+        }
+
+        // Render the delete review page
+        res.render("account/delete-review", {
+            title: `Delete ${review.inv_year} ${review.inv_make} ${review.inv_model} Review`,
+            review, // Pass the review details to the view
+            errors: null,
+            nav
+        });
+    } catch (error) {
+        console.error("Error fetching review:", error);
+        req.flash("notice", "There was an error loading the review.");
+        return res.redirect("/account/"); // Redirect on error
+    }
+}
+
+async function deleteReview(req, res) {
+    const review_id = req.params.review_id;
+    const account_id = res.locals.userId;
+
+    try {
+      // Call the model to delete the review
+        const result = await accountModel.deleteReview(review_id, account_id);
+
+        if (result.rowCount) {
+        req.flash("notice", "The review was deleted.");
+        } else {
+        req.flash("notice", "Unable to delete the review.");
+        }
+
+        return res.redirect("/account/");
+    } catch (error) {
+        console.error("Error deleting review:", error);
+        req.flash("notice", "An error occurred while attempting to delete the review.");
+        return res.redirect("/account/");
+    }
+}
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount, changePassword, getEditReview, updateReview, getDeleteReview, deleteReview }
