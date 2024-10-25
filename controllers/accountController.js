@@ -310,4 +310,55 @@ async function changePassword(req, res) {
     return res.redirect("/account/management");
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount, changePassword }
+async function getEditReview(req, res) {
+    let nav = await utilities.getNav()
+    const review_id = req.params.review_id; // Get the review_id from the URL
+    const account_id = res.locals.userId; // Get the logged-in user's account_id
+
+    try {
+        // Fetch the review details using the model
+        const review = await accountModel.getReviewById(review_id, account_id);
+        
+        if (!review) {
+            req.flash("notice", "Review not found.");
+            return res.redirect("/account/"); // Redirect if the review doesn't exist
+        }
+
+        // Render the edit review page
+        res.render("account/edit-review", {
+            title: `Edit ${review.inv_year} ${review.inv_make} ${review.inv_model} Review`,
+            review, // Pass the review details to the view
+            errors: null,
+            nav
+        });
+    } catch (error) {
+        console.error("Error fetching review:", error);
+        req.flash("notice", "There was an error loading the review.");
+        return res.redirect("/account/"); // Redirect on error
+    }
+}
+
+async function updateReview(req, res) {
+    const review_id = req.params.review_id; // Get the review ID from the request parameters
+    const account_id = res.locals.userId; // Get the logged-in user's account ID
+    const { review_text } = req.body; // Get the updated review text from the request body
+
+    console.log(`Updating review ID: ${review_id} for account ID: ${account_id}`); // Debugging log
+
+    try {
+        // Call the model to update the review in the database
+        await accountModel.updateReview(review_id, account_id, review_text);
+
+        // Flash a success message
+        req.flash("notice", "The review was updated.");
+
+        // Redirect back to the account management page
+        res.redirect("/account/");
+    } catch (error) {
+        console.error("Error updating review:", error);
+        req.flash("notice", "There was an error updating the review.");
+        return res.redirect(`/account/review/${review_id}`); // Redirect back to the edit page if there’s an error
+    }
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout, buildUpdateAccount, updateAccount, changePassword, getEditReview, updateReview }

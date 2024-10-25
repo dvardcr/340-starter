@@ -38,4 +38,10 @@ router.post("/change-password", utilities.handleErrors(accountController.changeP
 // Process to Logout
 router.get("/logout", utilities.handleErrors(accountController.logout))
 
+// Route to get the edit review page
+router.get('/review/:review_id', utilities.handleErrors(accountController.getEditReview))
+
+// Route to handle the update of the review
+router.post('/review/:review_id', utilities.handleErrors(accountController.updateReview))
+
 module.exports = router;

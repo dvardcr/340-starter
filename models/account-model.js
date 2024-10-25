@@ -96,4 +96,37 @@ async function getReviewsByAccountId(account_id) {
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword, getReviewsByAccountId }
+async function getReviewById(review_id) {
+  try {
+      const result = await pool.query(
+          'SELECT r.*, i.inv_year, i.inv_make, i.inv_model FROM review r JOIN inventory i ON r.inv_id = i.inv_id WHERE r.review_id = $1',
+          [review_id]
+      );
+      return result.rows[0]; // Return the review object
+  } catch (error) {
+      console.log('Error fetching review by ID:', error);
+      throw new Error('Database query failed');
+  }
+}
+
+async function updateReview(review_id, account_id, review_text) {
+  console.log(`Update function called with review_id: ${review_id}, account_id: ${account_id}, review_text: ${review_text}`); // Debugging log
+
+  try {
+      const result = await pool.query(
+          'UPDATE review SET review_text = $1 WHERE review_id = $2 AND account_id = $3',
+          [review_text, review_id, account_id]
+      );
+
+      console.log(`Rows updated: ${result.rowCount}`); // Debugging log
+
+      if (result.rowCount === 0) {
+          throw new Error('No rows updated. Review may not exist for this user.');
+      }
+  } catch (error) {
+      console.log('Error updating review:', error);
+      throw new Error('Database query failed');
+  }
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword, getReviewsByAccountId, getReviewById, updateReview }

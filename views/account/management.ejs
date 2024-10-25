@@ -18,22 +18,23 @@
     <p>User ID: <%= locals.userId %>
     </p>
 
-    <% if (reviews.length > 0) { %>
+    <% if (reviews.length> 0) { %>
         <ol>
-            <% reviews.forEach(review => { %>
+            <% reviews.forEach(review=> { %>
                 <li>
-                    Reviewed the <%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %> on <%= new Date(review.review_date).toLocaleDateString('en-US', { 
-                        year: 'numeric', month: 'long', day: 'numeric' 
-                    }) %> | 
-                    <a href="#">Edit</a> | 
-                    <a href="#">Delete</a>
+                    Reviewed the <%= review.inv_year %>
+                        <%= review.inv_make %>
+                            <%= review.inv_model %> on <%= new Date(review.review_date).toLocaleDateString('en-US', {
+                                    year: 'numeric' , month: 'long' , day: 'numeric' }) %> |
+                                    <a href="/account/review/<%= review.review_id %>">Edit</a> |
+                                    <a href="#">Delete</a>
                 </li>
-            <% }); %>
+                <% }); %>
         </ol>
-    <% } else { %>
-        <p>No reviews found.</p>
-    <% } %>
-    
+        <% } else { %>
+            <p>No reviews found.</p>
+            <% } %>
+
 
                 <hr>
 
