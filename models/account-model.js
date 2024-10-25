@@ -76,7 +76,24 @@ async function updatePassword(account_id, hashedPassword) {
   const query = 'UPDATE account SET account_password = $1 WHERE account_id = $2';
   const values = [hashedPassword, account_id];
   const result = await pool.query(query, values);
-  return result.rowCount > 0; // Return true if at least one row was updated
+  return result.rowCount > 0;
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword }
+async function getReviewsByAccountId(account_id) {
+  try {
+      const result = await pool.query(
+          `SELECT r.review_id, r.review_text, r.review_date, 
+          i.inv_year, i.inv_make, i.inv_model
+          FROM review r
+          JOIN inventory i ON r.inv_id = i.inv_id
+          WHERE r.account_id = $1`,
+          [account_id]
+      );
+      return result.rows;
+  } catch (error) {
+      console.log('Error fetching reviews:', error);
+      throw new Error('Database query failed');
+  }
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, getAccountById, updatePassword, getReviewsByAccountId }

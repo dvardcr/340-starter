@@ -1,16 +1,44 @@
-<h1><%= title %></h1>
+<h1>
+    <%= title %>
+</h1>
 
 <%- messages() %>
 
-<p>You're logged in.</p>
+    <p>You're logged in.</p>
 
-<h2>Welcome <%= locals.userName %>!</h2>
+    <h2>Welcome <%= locals.userName %>!</h2>
 
-<!-- Edit your account information link (visible to all users) -->
-<a href="/account/update/<%= locals.userId %>">Edit your account information</a>
+    <!-- Edit your account information link (visible to all users) -->
+    <a href="/account/update/<%= locals.userId %>">Edit your account information</a>
 
-<!-- Inventory Management (visible to Employee/Admin only) -->
-<% if (locals.userType === 'Employee' || locals.userType === 'Admin') { %>
-    <h3>Inventory Management</h3>
-    <p><a href="/inv">Manage Inventory</a></p>
-<% } %>
+    <hr>
+
+    <h3>My Reviews</h3>
+
+    <p>User ID: <%= locals.userId %>
+    </p>
+
+    <% if (reviews.length > 0) { %>
+        <ol>
+            <% reviews.forEach(review => { %>
+                <li>
+                    Reviewed the <%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %> on <%= new Date(review.review_date).toLocaleDateString('en-US', { 
+                        year: 'numeric', month: 'long', day: 'numeric' 
+                    }) %> | 
+                    <a href="#">Edit</a> | 
+                    <a href="#">Delete</a>
+                </li>
+            <% }); %>
+        </ol>
+    <% } else { %>
+        <p>No reviews found.</p>
+    <% } %>
+    
+
+                <hr>
+
+                <!-- Inventory Management (visible to Employee/Admin only) -->
+                <% if (locals.userType==='Employee' || locals.userType==='Admin' ) { %>
+                    <h3>Inventory Management</h3>
+                    <p><a href="/inv">Manage Inventory</a></p>
+                    <% } %>

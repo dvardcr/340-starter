@@ -119,15 +119,32 @@ async function accountLogin(req, res) {
 *  Deliver Account Management view
 * *************************************** */
 async function buildAccountManagement(req, res, next) {
-    let nav = await utilities.getNav()
-    const user = req.user;
+    let nav = await utilities.getNav();
+    const userId = res.locals.userId; // Get the logged-in user's account_id
 
-    res.render("account/management", {
-        title: "Account Management",
-        nav,
-        user,
-        errors: null,
-    })
+    try {
+        const accountData = await accountModel.getAccountById(userId); // Get user account data
+        if (!accountData) {
+            throw new Error('Account data not found');
+        }
+
+        const reviews = await accountModel.getReviewsByAccountId(userId); // Fetch user reviews
+        if (!reviews) {
+            throw new Error('Reviews not found');
+        }
+
+        res.render("account/management", {
+            title: "Account Management",
+            nav,
+            account: accountData, // Pass account data to the view
+            reviews, // Pass fetched reviews to the view
+            errors: null,
+        });
+    } catch (error) {
+        console.error("Error fetching account data:", error);
+        req.flash("notice", "There was an error loading your account information.");
+        return res.status(500).redirect("/account/"); // Redirect on error
+    }
 }
 
 /* ****************************************
